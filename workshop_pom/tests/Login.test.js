@@ -162,7 +162,7 @@ fixture('Login')
 
     
 
-    test.only('Final order Items', async t => {
+    test('Final order Items', async t => {
     console.log('Items Selected');    
 
         await t.          
@@ -181,13 +181,32 @@ fixture('Login')
      await t
      .wait (5000)
 
-         const numerOfitems = Selector ('a[class="shopping_cart_link"]')
-         const result = await numerOfitems.innerText
-         console.log(result)
+        
+            
+           
+           .click(productsPage.shoppingCartLink)
+           .click(cart.checkoutBtn)
+           .typeText(checkoutYourInformation.firstName, "Jorge")
+           .typeText(checkoutYourInformation.lastName, "Gonzalez")
+           .typeText(checkoutYourInformation.postalCode, "45507")
+           .wait(5000)
+           .click(checkoutYourInformation.continueBtn)  //continue button   
+           
+            .wait(5000)
+            var lista = Selector ('div[class="cart_quantity"]');
+            var conteo    = await lista.count;
+            var sh = await Selector ('a[class="shopping_cart_link"]').innerText;
 
-         if(numerOfitems==console.log(result)){
-             console.log('items selected matches with the number of items in the cart')
-         }       
+              
+            console.log(sh)
+            if(conteo==sh){
+                console.log('Matched as expeced')
+                
+            }
+            else
+            console.log('not matched')
+
+
 
         await t.expect(productsPage.sauceLabsbackpackLabel.exists).ok
     })
